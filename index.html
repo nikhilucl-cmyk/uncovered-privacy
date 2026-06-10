@@ -3,102 +3,268 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Privacy Policy · Uncovered</title>
+<title>Uncovered — The Imposter Party Game</title>
+<meta name="description" content="Everyone gets a secret word. One player is faking it. Describe, deceive, and vote out the imposter — the pass-and-play party game for 3–20 players." />
+<link rel="icon" type="image/png" href="./assets/favicon.png" />
+<meta property="og:title" content="Uncovered — The Imposter Party Game" />
+<meta property="og:description" content="Everyone gets a secret word. One player is faking it. Can you spot the imposter?" />
+<meta property="og:image" content="./assets/icon.png" />
+<meta name="theme-color" content="#fff01f" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#fff7ff; --surface:#f6e9ff; --ink:#25113e; --primary:#fff01f;
-    --secondary:#e30071; --muted:#4a4732;
+    --bg:#fff7ff; --surface:#f6e9ff; --ink:#25113e;
+    --yellow:#fff01f; --pink:#e30071; --purple:#9d3bff; --teal:#00b3a4; --cream:#fff7ff;
+    --shadow: 0 7px 0 var(--ink);
+    --shadow-lg: 0 12px 0 var(--ink);
+    --disp:"Anybody",system-ui,sans-serif;
+    --body:"Sora",system-ui,sans-serif;
   }
-  *{box-sizing:border-box}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{overflow-x:hidden}
+  html{scroll-behavior:smooth}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.6;
+    font-family:var(--body); color:var(--ink); background:var(--bg);
+    -webkit-font-smoothing:antialiased; overflow-x:hidden; line-height:1.55;
+    background-image:radial-gradient(var(--surface) 1.5px, transparent 1.5px);
+    background-size:22px 22px;
   }
-  .wrap{max-width:760px; margin:0 auto; padding:32px 20px 80px}
-  header{
-    background:var(--ink); color:#fff; border-radius:24px;
-    padding:28px 26px; margin-bottom:28px;
-    border:3px solid var(--ink); box-shadow:0 8px 0 rgba(37,17,62,.25);
+  a{color:inherit}
+  .disp{font-family:var(--disp); font-weight:900; letter-spacing:-.01em; line-height:.95}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* ── chips / shared ── */
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);
+    font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:8px 14px;border-radius:999px;border:2px solid var(--ink)}
+  .tag{display:inline-block;background:var(--yellow);color:var(--ink);border:2.5px solid var(--ink);
+    border-radius:999px;font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:.06em;
+    text-transform:uppercase;padding:6px 14px;box-shadow:0 4px 0 var(--ink)}
+
+  /* ── top bar ── */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,247,255,.86);backdrop-filter:blur(8px);
+    border-bottom:3px solid var(--ink)}
+  nav .inner{display:flex;align-items:center;justify-content:space-between;height:62px}
+  nav .brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:900;font-size:20px}
+  nav .brand img{width:34px;height:34px;border-radius:9px;border:2.5px solid var(--ink);box-shadow:0 3px 0 var(--ink)}
+  nav .links{display:flex;gap:22px;font-weight:600;font-size:14.5px}
+  nav .links a{text-decoration:none;opacity:.78}
+  nav .links a:hover{opacity:1}
+  @media(max-width:620px){nav .links{display:none}}
+
+  /* ── hero ── */
+  .hero{position:relative;padding:54px 0 30px}
+  .hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+  @media(max-width:860px){.hero .grid{grid-template-columns:1fr;text-align:center}}
+  .hero-logo{display:block;width:min(400px,84%);max-width:100%;height:auto;filter:drop-shadow(0 8px 0 rgba(37,17,62,.16))}
+  @media(max-width:860px){.hero-logo{margin:0 auto}}
+  .hero h1.sub{font-family:var(--disp);font-weight:900;font-size:clamp(24px,4.6vw,42px);
+    margin:18px 0 0;line-height:1.02;overflow-wrap:break-word}
+  .hero h1 .hl{color:var(--pink)}
+  .hero h1 .hl2{color:var(--teal)}
+  .hero p.lede{font-size:17px;max-width:480px;margin:16px 0 0;opacity:.9}
+  @media(max-width:860px){.hero p.lede{margin-left:auto;margin-right:auto}}
+  .hero .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  @media(max-width:860px){.hero .meta{justify-content:center}}
+
+  /* mascot stage */
+  .stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:340px}
+  .blob{position:absolute;width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle at 50% 38%,var(--yellow),var(--pink) 62%,transparent 72%);
+    filter:blur(6px);opacity:.55;animation:breathe 5s ease-in-out infinite}
+  .mascot{position:relative;width:min(300px,80%);height:auto;z-index:2;
+    filter:drop-shadow(0 18px 18px rgba(37,17,62,.28));animation:float 4.2s ease-in-out infinite}
+  .confetti{position:absolute;border-radius:50%;z-index:3}
+  .c1{width:18px;height:18px;background:var(--yellow);border:2.5px solid var(--ink);top:8%;left:14%;animation:drift 6s ease-in-out infinite}
+  .c2{width:14px;height:14px;background:transparent;border:3px solid var(--pink);top:20%;right:12%;animation:drift 5s ease-in-out infinite .4s}
+  .c3{width:13px;height:13px;background:var(--purple);border:2px solid var(--ink);bottom:16%;left:10%;animation:drift 5.6s ease-in-out infinite .8s}
+  .c4{width:16px;height:16px;background:var(--teal);border:2.5px solid var(--ink);bottom:9%;right:16%;animation:drift 4.6s ease-in-out infinite .2s}
+
+  /* ── store badges ── */
+  .badges{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+  @media(max-width:860px){.badges{justify-content:center}}
+  @media(max-width:480px){
+    .badges{flex-direction:column;align-items:stretch}
+    .badge-btn{justify-content:flex-start}
   }
-  header .badge{
-    display:inline-block; background:var(--primary); color:var(--ink);
-    font-weight:800; letter-spacing:.08em; font-size:12px;
-    padding:6px 12px; border-radius:999px; text-transform:uppercase;
-  }
-  h1{font-size:34px; margin:14px 0 4px; letter-spacing:-.02em}
-  header p{margin:0; opacity:.8; font-size:14px}
-  h2{font-size:20px; margin:30px 0 8px; border-bottom:2px solid var(--ink); padding-bottom:6px}
-  .summary{
-    background:var(--surface); border:2px solid var(--ink); border-radius:16px;
-    padding:18px 20px; margin:8px 0 8px;
-  }
-  ul{padding-left:20px}
-  li{margin:6px 0}
-  a{color:var(--secondary); font-weight:600}
-  code{background:var(--surface); padding:2px 6px; border-radius:6px; font-size:.9em}
-  footer{margin-top:40px; font-size:13px; color:var(--muted); text-align:center}
-  strong{color:var(--ink)}
+  .badge-btn{position:relative;display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--cream);
+    border:3px solid var(--ink);border-radius:16px;padding:11px 18px;text-decoration:none;
+    box-shadow:var(--shadow);overflow:hidden;transition:transform .12s,box-shadow .12s}
+  .badge-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .badge-btn .ic{width:26px;height:26px;flex:none}
+  .badge-btn .txt small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.72;font-weight:700}
+  .badge-btn .txt b{font-family:var(--disp);font-weight:800;font-size:17px;line-height:1.1}
+  .badge-btn::after{content:"";position:absolute;top:-60%;left:-30%;width:36%;height:220%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:rotate(20deg);
+    animation:sweep 3.4s ease-in-out infinite}
+  .soon{position:absolute;top:-10px;right:-8px;background:var(--yellow);color:var(--ink);
+    font-family:var(--disp);font-weight:800;font-size:10px;letter-spacing:.06em;padding:3px 8px;
+    border:2px solid var(--ink);border-radius:999px;transform:rotate(7deg)}
+
+  /* ── section heads ── */
+  section.block{padding:48px 0}
+  .eyebrow{font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink)}
+  .h2{font-family:var(--disp);font-weight:900;font-size:clamp(26px,4vw,38px);margin:8px 0 6px}
+
+  /* ── steps ── */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{position:relative;background:var(--cream);border:3px solid var(--ink);border-radius:20px;
+    padding:24px 20px 22px;box-shadow:var(--shadow)}
+  .step:nth-child(1){background:#fff}
+  .step:nth-child(2){background:var(--surface)}
+  .step .num{position:absolute;top:-16px;left:18px;width:38px;height:38px;border-radius:50%;
+    background:var(--yellow);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;
+    font-family:var(--disp);font-weight:900;font-size:18px;box-shadow:0 4px 0 var(--ink)}
+  .step h3{font-family:var(--disp);font-weight:800;font-size:20px;margin:10px 0 6px}
+  .step p{font-size:14.5px;opacity:.85}
+
+  /* ── feature cards ── */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+  @media(max-width:760px){.feats{grid-template-columns:1fr}}
+  .feat{border:3px solid var(--ink);border-radius:20px;padding:22px;color:var(--ink);box-shadow:var(--shadow);
+    transition:transform .12s,box-shadow .12s}
+  .feat:hover{transform:translate(-1px,-3px);box-shadow:var(--shadow-lg)}
+  .feat.y{background:var(--yellow)} .feat.p{background:var(--pink);color:#fff} .feat.t{background:var(--teal);color:#fff}
+  .feat .emo{font-size:26px}
+  .feat h3{font-family:var(--disp);font-weight:800;font-size:19px;margin:10px 0 6px}
+  .feat p{font-size:14px;opacity:.92}
+
+  /* ── cta band ── */
+  .cta{background:var(--ink);color:var(--cream);border-top:4px solid var(--ink)}
+  .cta .inner{padding:54px 0;text-align:center}
+  .cta h2{font-family:var(--disp);font-weight:900;font-size:clamp(28px,4.6vw,44px);line-height:1.02}
+  .cta h2 .y{color:var(--yellow)}
+  .cta p{opacity:.82;margin-top:12px;font-size:16px}
+  .cta .badges{justify-content:center;margin-top:26px}
+  .cta .badge-btn{background:var(--cream);color:var(--ink);border-color:var(--cream);box-shadow:0 7px 0 rgba(0,0,0,.35)}
+
+  /* ── footer ── */
+  footer{padding:34px 0;border-top:3px solid var(--ink)}
+  footer .inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:18px}
+  footer .brand img{width:30px;height:30px;border-radius:8px;border:2.5px solid var(--ink)}
+  footer .fl{display:flex;gap:20px;font-weight:600;font-size:14.5px}
+  footer .fl a{text-decoration:none;opacity:.8}
+  footer .fl a:hover{opacity:1;color:var(--pink)}
+  footer .cr{width:100%;text-align:center;font-size:12.5px;opacity:.6;margin-top:8px}
+
+  /* ── entrance animation ── */
+  .reveal{opacity:0;transform:translateY(18px);animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}
+
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-16px) rotate(1.5deg)}}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.07);opacity:.62}}
+  @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes sweep{0%{left:-30%}55%,100%{left:130%}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <span class="badge">Privacy Policy</span>
-      <h1>Uncovered</h1>
-      <p>The Imposter Party Game · Last updated: 1 June 2026</p>
-    </header>
 
-    <div class="summary">
-      <strong>The short version:</strong> Uncovered is a pass-and-play party game.
-      <strong>No account is required, and we do not collect personal information that identifies you.</strong>
-      The game works offline. Player names you type stay on your device and are never sent to us.
+<nav>
+  <div class="wrap inner">
+    <div class="brand"><img src="./assets/icon.png" alt="Uncovered icon" />UNCOVERED</div>
+    <div class="links">
+      <a href="#how">How to play</a>
+      <a href="#features">Features</a>
+      <a href="./support.html">Support</a>
+      <a href="./privacy.html">Privacy</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="tag reveal d1">🎉 The Imposter Party Game</span>
+      <img class="hero-logo reveal d2" src="./assets/logo.png" alt="Uncovered" />
+      <h1 class="sub reveal d3">Everyone gets a <span class="hl">secret word.</span><br/>One player is <span class="hl2">faking it.</span></h1>
+      <p class="lede reveal d4">Describe your word without giving it away, sniff out who's bluffing, and vote the imposter out — before they figure out the word. Pure pass-and-play chaos for your whole crew.</p>
+      <div class="meta reveal d4">
+        <span class="pill">👥 3–20 players</span>
+        <span class="pill">📴 Plays offline</span>
+        <span class="pill">⏱️ 5-min rounds</span>
+      </div>
+      <div class="badges reveal d5">
+        <a class="badge-btn" href="https://apps.apple.com/app/id6776312251" aria-label="App Store — coming soon">
+          <span class="soon">SOON</span>
+          <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7 1.4 0 1.8.7 3 .7 1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.7zM14.1 5.8c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-.9 2.9 1 .1 2-.5 2.7-1.3z"/></svg>
+          <span class="txt"><small>Coming soon to</small><b>App Store</b></span>
+        </a>
+        <a class="badge-btn" href="https://play.google.com/store/apps/details?id=com.uncovered.imposter" aria-label="Google Play — coming soon">
+          <span class="soon">SOON</span>
+          <svg class="ic" viewBox="0 0 24 24"><path d="M3.6 2.3 13 11.7 3.6 21.1c-.3-.2-.5-.6-.5-1.1V3.4c0-.5.2-.9.5-1.1z" fill="#00d3ff"/><path d="M16.9 8.2 13 11.7 16.9 15.6l3.2-1.8c.9-.5.9-1.8 0-2.3l-3.2-1.3z" fill="#ffce00"/><path d="M3.6 2.3c.3-.2.8-.2 1.2 0l11.1 6.3-3 2.6L3.6 2.3z" fill="#00e676"/><path d="M3.6 21.1 12.9 12.8l3 2.6-11.1 6.3c-.4.2-.9.2-1.2-.6z" fill="#ff3d57"/></svg>
+          <span class="txt"><small>Coming soon to</small><b>Google Play</b></span>
+        </a>
+      </div>
     </div>
 
-    <h2>Information we handle</h2>
-    <p><strong>Stored only on your device</strong></p>
-    <ul>
-      <li><strong>Player names</strong> entered for a game — kept in local storage on your device, never uploaded.</li>
-      <li><strong>Settings &amp; progress</strong> — your sound preference and pack-unlock status, stored locally (AsyncStorage).</li>
-    </ul>
-
-    <p><strong>Word pack content (network)</strong></p>
-    <ul>
-      <li>The app fetches word packs from our backend (Supabase). These requests are anonymous and contain no personal data. When offline, the app uses packs bundled with the app.</li>
-    </ul>
-
-    <p><strong>Purchases</strong></p>
-    <ul>
-      <li>In-app purchases (e.g. “Unlock Everything”) are processed by the <strong>Apple App Store</strong>. We never receive or store your payment details — Apple handles the transaction and shares only confirmation that a purchase succeeded. Purchase status is managed via RevenueCat to unlock content and to support “Restore Purchases.”</li>
-    </ul>
-
-    <p><strong>Advertising</strong></p>
-    <ul>
-      <li><strong>We do not currently show ads.</strong> If we add optional rewarded ads in a future version, we will update this policy and disclose the ad provider before that version ships.</li>
-    </ul>
-
-    <h2>Children’s privacy</h2>
-    <p>The app is intended for general audiences. We do not knowingly collect personal information from children. If you believe a child has provided personal information, contact us and we will delete it.</p>
-
-    <h2>Data sharing</h2>
-    <p>We do not sell your information. Data is shared only with the service providers needed to operate the app — Supabase (pack content), Apple and RevenueCat (purchase processing &amp; entitlement) — strictly to provide the service.</p>
-
-    <h2>Your choices</h2>
-    <ul>
-      <li>Gameplay and settings data stay on your device; clearing the app’s storage or uninstalling removes them.</li>
-      <li>You can manage purchases and subscriptions in your Apple ID settings.</li>
-    </ul>
-
-    <h2>Data retention</h2>
-    <p>Locally-stored data persists until you clear it or uninstall. We do not maintain user accounts or server-side profiles.</p>
-
-    <h2>Changes</h2>
-    <p>We may update this policy; the “Last updated” date will change. Material changes will be noted in-app or on this page.</p>
-
-    <h2>Contact</h2>
-    <p>Questions? Email <a href="mailto:coolcontent1992@gmail.com">coolcontent1992@gmail.com</a>.</p>
-
-    <footer>© 2026 Uncovered. All rights reserved.</footer>
+    <div class="stage reveal d3">
+      <div class="blob"></div>
+      <span class="confetti c1"></span><span class="confetti c2"></span>
+      <span class="confetti c3"></span><span class="confetti c4"></span>
+      <img class="mascot" src="./assets/mascot.png" alt="Uncovered imposter mascot" />
+    </div>
   </div>
+</header>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <div class="h2 disp">Three minutes to learn. All night to argue.</div>
+    <div class="steps">
+      <div class="step reveal"><span class="num">1</span><h3>Pass &amp; peek</h3><p>Everyone secretly sees their word. Most players share the same one — but the <b>imposter</b> gets a different word, and <b>Mr. White</b> gets nothing at all.</p></div>
+      <div class="step reveal"><span class="num">2</span><h3>Describe &amp; deceive</h3><p>Take turns dropping one-word clues about your secret word. Say too much and you expose yourself; too little and you look guilty.</p></div>
+      <div class="step reveal"><span class="num">3</span><h3>Vote it out</h3><p>Debate, accuse, and vote. Catch the imposter to win — or watch them bluff their way to victory.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="features">
+  <div class="wrap">
+    <span class="eyebrow">Why you'll love it</span>
+    <div class="h2 disp">Built for loud rooms.</div>
+    <div class="feats">
+      <div class="feat y reveal"><div class="emo">🗂️</div><h3>Tons of word packs</h3><p>From everyday easy to brutally tricky — fresh packs to keep every round unpredictable.</p></div>
+      <div class="feat p reveal"><div class="emo">🕵️</div><h3>Imposter &amp; Mr. White</h3><p>Two flavors of chaos: the imposter with a wrong word, and Mr. White flying totally blind.</p></div>
+      <div class="feat t reveal"><div class="emo">📱</div><h3>One phone, whole party</h3><p>No accounts, no internet, no setup. Just pass the phone around and play anywhere.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap inner">
+    <h2 class="disp">Ready to <span class="y">uncover</span> your friends?</h2>
+    <p>Launching soon on the App Store &amp; Google Play. Gather your crew.</p>
+    <div class="badges">
+      <a class="badge-btn" href="https://apps.apple.com/app/id6776312251">
+        <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7 1.4 0 1.8.7 3 .7 1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.7zM14.1 5.8c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-.9 2.9 1 .1 2-.5 2.7-1.3z"/></svg>
+        <span class="txt"><small>Coming soon to</small><b>App Store</b></span>
+      </a>
+      <a class="badge-btn" href="https://play.google.com/store/apps/details?id=com.uncovered.imposter">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3.6 2.3 13 11.7 3.6 21.1c-.3-.2-.5-.6-.5-1.1V3.4c0-.5.2-.9.5-1.1z" fill="#00d3ff"/><path d="M16.9 8.2 13 11.7 16.9 15.6l3.2-1.8c.9-.5.9-1.8 0-2.3l-3.2-1.3z" fill="#ffce00"/><path d="M3.6 2.3c.3-.2.8-.2 1.2 0l11.1 6.3-3 2.6L3.6 2.3z" fill="#00e676"/><path d="M3.6 21.1 12.9 12.8l3 2.6-11.1 6.3c-.4.2-.9.2-1.2-.6z" fill="#ff3d57"/></svg>
+        <span class="txt"><small>Coming soon to</small><b>Google Play</b></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap inner">
+    <div class="brand"><img src="./assets/icon.png" alt="" />UNCOVERED</div>
+    <div class="fl">
+      <a href="#how">How to play</a>
+      <a href="./support.html">Support</a>
+      <a href="./privacy.html">Privacy</a>
+      <a href="mailto:coolcontent1992@gmail.com">Contact</a>
+    </div>
+    <div class="cr">© 2026 Uncovered. All rights reserved.</div>
+  </div>
+</footer>
+
 </body>
 </html>
